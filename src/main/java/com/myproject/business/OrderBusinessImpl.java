@@ -43,10 +43,10 @@ public class OrderBusinessImpl implements OrderBusiness {
         try {
             List<OrdersEntity> ordersEntityList = orderRepositoryJpa.findByPetId(ordersDTO.getPetId());
             if (ordersEntityList.size() == 0) {
-                orderRepository.insertOrder(ordersDTO);
+                resultInsideDTO = orderRepository.insertOrder(ordersDTO);
             } else {
                 resultInsideDTO.setKey(Constant.RESPONSE_KEY.ERROR);
-                resultInsideDTO.setMessages("Đã tồn tại đơn nhận vật nuôi");
+                resultInsideDTO.setMessages("Đơn cho thú cưng này đã tồn tại");
                 return resultInsideDTO;
             }
         } catch (Exception e) {
