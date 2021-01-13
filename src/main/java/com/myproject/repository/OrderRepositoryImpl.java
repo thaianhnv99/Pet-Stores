@@ -45,6 +45,26 @@ public class OrderRepositoryImpl extends BaseRepository implements OrderReposito
     }
 
     @Override
+    public Datatable findOrderByIdPet(OrdersDTO ordersDTO) {
+        BaseDTO baseDTO = new BaseDTO();
+        Map<String, Object> parameter = new HashMap<>();
+        String sql = getSQLFromFile("order", "getDatatableOrder");
+        if (!DataUtil.isNullOrEmpty(ordersDTO.getUserId())) {
+            sql += " And p.idvatnuoi = :idvatnuoi ";
+            parameter.put("idvatnuoi", ordersDTO.getPetId());
+        } else {
+            return null;
+        }
+        sql += " ORDER BY p.iddonnhannuoi ASC ";
+        baseDTO.setSqlQuery(sql);
+        baseDTO.setParameters(parameter);
+        return getListDataTableBySqlQuery(baseDTO.getSqlQuery(),
+                baseDTO.getParameters(), ordersDTO.getPage(), ordersDTO.getPageSize(),
+                OrdersDTO.class,
+                ordersDTO.getSortName(), ordersDTO.getSortType());
+    }
+
+    @Override
     public ResultInsideDTO insertOrder(OrdersDTO ordersDTO) {
         ResultInsideDTO resultInsideDTO = new ResultInsideDTO();
         resultInsideDTO.setKey(Constant.RESPONSE_KEY.SUCCESS);

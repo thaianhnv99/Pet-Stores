@@ -4,6 +4,7 @@ import com.myproject.common.Constant;
 import com.myproject.common.dto.Datatable;
 import com.myproject.common.dto.ResultInsideDTO;
 import com.myproject.data.dto.OrdersDTO;
+import com.myproject.data.entity.OrdersEntity;
 import com.myproject.repository.OrderRepository;
 import com.myproject.repository.OrderRepositoryJpa;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -37,7 +39,20 @@ public class OrderBusinessImpl implements OrderBusiness {
 
     @Override
     public ResultInsideDTO insertOrder(OrdersDTO ordersDTO) {
-        return orderRepository.insertOrder(ordersDTO);
+        ResultInsideDTO resultInsideDTO = new ResultInsideDTO();
+        try {
+            List<OrdersEntity> ordersEntityList = orderRepositoryJpa.findByPetId(ordersDTO.getPetId());
+            if (ordersEntityList.size() == 0) {
+                orderRepository.insertOrder(ordersDTO);
+            } else {
+                resultInsideDTO.setKey(Constant.RESPONSE_KEY.ERROR);
+                resultInsideDTO.setMessages("Đã tồn tại đơn nhận vật nuôi");
+                return resultInsideDTO;
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+        return resultInsideDTO;
     }
 
     @Override
@@ -51,7 +66,7 @@ public class OrderBusinessImpl implements OrderBusiness {
         try {
             OrdersDTO orders = orderRepository.findOrderById(ordersDTO.getOrderId());
             if (orders != null) {
-                orderRepositoryJpa.aproverOrderInfo(ordersDTO.getStatus(), ordersDTO.getOrderId());
+                orderRepositoryJpa.aproverOrderInfo(ordersDTO.getStatus(), ordersDTO.getOrderId(), ordersDTO.getApprovalDate(), ordersDTO.getDeliveryDate());
                 resultInsideDTO.setKey(Constant.RESPONSE_KEY.SUCCESS);
                 resultInsideDTO.setId(orders.getOrderId());
             } else {

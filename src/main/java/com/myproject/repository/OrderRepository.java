@@ -9,6 +9,8 @@ public interface OrderRepository {
 
     Datatable findOrderByIdMember(OrdersDTO ordersDTO);
 
+    Datatable findOrderByIdPet(OrdersDTO ordersDTO);
+
     ResultInsideDTO insertOrder(OrdersDTO ordersDTO);
 
     ResultInsideDTO updateOrderInfo(OrdersDTO ordersDTO);
