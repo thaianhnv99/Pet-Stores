@@ -22,6 +22,12 @@ public class PetController {
         return new ResponseEntity<>(datatable, HttpStatus.OK);
     }
 
+    @PostMapping(value = "/getDatatablePetAll")
+    public ResponseEntity<Datatable> getDatatablePetAll(@RequestBody PetDTO petDTO) {
+        Datatable datatable = petBusiness.getDatatablePetAll(petDTO);
+        return new ResponseEntity<>(datatable, HttpStatus.OK);
+    }
+
     @GetMapping(value = "/getDetail")
     public ResponseEntity<PetDTO> findPetById(@RequestParam Long petId) {
         PetDTO petDTO = petBusiness.findPetById(petId);

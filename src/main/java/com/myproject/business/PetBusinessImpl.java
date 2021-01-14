@@ -52,6 +52,12 @@ public class PetBusinessImpl implements PetBusiness {
         return petRepository.getDatatablePet(petDTO);
     }
 
+    @Override
+    public Datatable getDatatablePetAll(PetDTO petDTO) {
+        log.info("getDatatablePet", petDTO);
+        return petRepository.getDatatablePetAll(petDTO);
+    }
+
 
     @Override
     public File exportData(PetDTO petDTO) throws Exception {

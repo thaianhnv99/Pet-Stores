@@ -8,6 +8,7 @@ p.khaibaodieukien conditions,
 p.ngayguidon sentDate,
 p.ngayduyetnuoi approvalDate,
 p.ngaygiaovatnuoi deliveryDate,
-p.trangthai status
-from orders p
+p.trangthai status,
+pet.tenvatnuoi petName
+from orders p inner join pet on pet.idvatnuoi = p.idvatnuoi
 where 1 = 1

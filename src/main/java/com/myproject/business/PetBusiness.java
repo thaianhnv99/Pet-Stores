@@ -17,6 +17,8 @@ public interface PetBusiness {
 
     Datatable getDatatablePet(PetDTO petDTO);
 
+    Datatable getDatatablePetAll(PetDTO petDTO);
+
     File exportData(PetDTO petDTO) throws Exception;
 
 }

@@ -18,5 +18,7 @@ public interface PetRepository {
 
     Datatable getDatatablePet(PetDTO petDTO);
 
+    Datatable getDatatablePetAll(PetDTO petDTO);
+
     List<PetDTO> getListDataExport(PetDTO petDTO);
 }

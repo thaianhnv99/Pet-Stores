@@ -70,8 +70,17 @@ public class PetRepositoryImpl extends BaseRepository implements PetRepository {
     }
 
     @Override
+    public Datatable getDatatablePetAll(PetDTO petDTO) {
+        BaseDTO baseDTO = sqlSearchAll(petDTO);
+        return getListDataTableBySqlQuery(baseDTO.getSqlQuery(),
+                baseDTO.getParameters(), petDTO.getPage(), petDTO.getPageSize(),
+                PetDTO.class,
+                petDTO.getSortName(), petDTO.getSortType());
+    }
+
+    @Override
     public List<PetDTO> getListDataExport(PetDTO petDTO) {
-        BaseDTO baseDTO = sqlSearch(petDTO);
+        BaseDTO baseDTO = sqlSearchAll(petDTO);
         return getNamedParameterJdbcTemplate().query(baseDTO.getSqlQuery()
                 , baseDTO.getParameters()
                 , BeanPropertyRowMapper.newInstance(PetDTO.class));
@@ -81,6 +90,23 @@ public class PetRepositoryImpl extends BaseRepository implements PetRepository {
         BaseDTO baseDTO = new BaseDTO();
         Map<String, Object> parameter = new HashMap<>();
         String sql = getSQLFromFile("pet", "getDatatablePet");
+        sql += " And o.idvatnuoi IS NULL ";
+        if (petDTO != null) {
+            if (!DataUtil.isNullOrEmpty(petDTO.getSearchAll())) {
+                sql += " And lower(p.tenvatnuoi) Like lower(:searchAll) ";
+                parameter.put("searchAll", DataUtil.convertSqlLike(petDTO.getSearchAll()));
+            }
+        }
+        sql += " ORDER BY p.tenvatnuoi ASC ";
+        baseDTO.setSqlQuery(sql);
+        baseDTO.setParameters(parameter);
+        return baseDTO;
+    }
+
+    private BaseDTO sqlSearchAll(PetDTO petDTO) {
+        BaseDTO baseDTO = new BaseDTO();
+        Map<String, Object> parameter = new HashMap<>();
+        String sql = getSQLFromFile("pet", "getDatatablePetAll");
         if (petDTO != null) {
             if (!DataUtil.isNullOrEmpty(petDTO.getSearchAll())) {
                 sql += " And lower(p.tenvatnuoi) Like lower(:searchAll) ";

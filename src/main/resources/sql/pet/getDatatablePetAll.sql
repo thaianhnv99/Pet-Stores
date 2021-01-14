@@ -15,5 +15,5 @@ p.ngaythemvao createTime,
 p.ngaycapnhat updateTime,
 p.thongtinthem moreInformation,
 p.trangthai status
-from pet p left join orders o on p.idvatnuoi = o.idvatnuoi
+from pet p
 where 1 = 1
