@@ -27,6 +27,9 @@ public class OrdersDTO extends BaseDTO {
     private Date deliveryDate;
     private String status;
     private String petName;
+    private String name;
+    private String phone;
+    private String address;
 
     private String statusStr;
 

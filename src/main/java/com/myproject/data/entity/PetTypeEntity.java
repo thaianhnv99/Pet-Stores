@@ -22,6 +22,7 @@ public class PetTypeEntity implements Serializable {
 //    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = Constant.SEQUENCE_KEY.EMPLOYEE)
 //    @SequenceGenerator(name = Constant.SEQUENCE_KEY.EMPLOYEE, sequenceName = "SEQUENCE", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idloaivatnuoi")
     private Long petTypeId;
 
     @Column(name = "tenloaivatnuoi")
